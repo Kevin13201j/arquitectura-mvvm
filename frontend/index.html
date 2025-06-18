@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>MVVM Example</title>
+</head>
+<body>
+  <h1>MVVM Frontend</h1>
+  <button onclick="viewModel.loadMessage()">Load Greeting</button>
+  <pre id="output"></pre>
+
+  <script>
+    class ViewModel {
+      constructor() {
+        this.output = document.getElementById('output');
+      }
+
+      async loadMessage() {
+        const res = await fetch('http://localhost:3000/api/greeting');
+        const data = await res.json();
+        this.output.textContent = data.message;
+      }
+    }
+
+    const viewModel = new ViewModel();
+  </script>
+</body>
+</html>
