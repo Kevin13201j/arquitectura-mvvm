@@ -1,28 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>MVVM Example</title>
-</head>
-<body>
-  <h1>MVVM Frontend</h1>
-  <button onclick="viewModel.loadMessage()">Load Greeting</button>
-  <pre id="output"></pre>
+<script>
+  class ViewModel {
+    constructor() {
+      this.output = document.getElementById('output');
+    }
 
-  <script>
-    class ViewModel {
-      constructor() {
-        this.output = document.getElementById('output');
-      }
-
-      async loadMessage() {
+    async loadMessage() {
+      try {
         const res = await fetch('http://localhost:3000/api/greeting');
         const data = await res.json();
         this.output.textContent = data.message;
+      } catch (error) {
+        this.output.textContent = 'Error loading message';
+        console.error(error);
       }
     }
+  }
 
-    const viewModel = new ViewModel();
-  </script>
-</body>
-</html>
+  const viewModel = new ViewModel();
+  window.ViewModel = viewModel; // importante para que el botón pueda acceder
+</script>
